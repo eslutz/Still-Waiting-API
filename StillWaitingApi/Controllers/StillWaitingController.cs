@@ -8,18 +8,13 @@ namespace StillWaitingApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class StillWaitingController : ControllerBase
+public class StillWaitingController(IConfiguration configuration) : ControllerBase
 {
-    private readonly IConfiguration _configuration;
+    private readonly IConfiguration _configuration = configuration;
 
-    public StillWaitingController(IConfiguration configuration)
-    {
-        _configuration = configuration;
-    }
-
-   [HttpGet("HealthCheck", Name = "StillWaiting.HealthCheck")]
-   [ProducesResponseType(200)]
-   [Produces("text/plain")]
+    [HttpGet("HealthCheck", Name = "StillWaiting.HealthCheck")]
+    [ProducesResponseType(200)]
+    [Produces("text/plain")]
     public string HealthCheck()
     {
         return "Still Waiting API is up and running!";
@@ -121,22 +116,4 @@ public class StillWaitingController : ControllerBase
             return StatusCode(500, "Error updating item");
         }
     }
-
-    // public async Task<OmnipodItunesSearchResponse> GetItunesSearchResults()
-    // {
-    //     using var client = new HttpClient();
-    //     client.DefaultRequestHeaders.Accept.Clear();
-    //     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-    //     var response = await client.GetAsync(searchUrl);
-    //     if (response.IsSuccessStatusCode)
-    //     {
-    //         var searchResults = await response.Content.ReadFromJsonAsync<Item>();
-    //         return searchResults ?? new Item();
-    //     }
-    //     else
-    //     {
-    //         throw new Exception("Network response was not ok");
-    //     }
-    // }
 }
